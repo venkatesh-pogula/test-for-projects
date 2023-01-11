@@ -1,0 +1,7 @@
+---
+java_package: open-jdk-11
+app_dir_url: https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+app_user: springbootuser
+app_path: /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
+app_dir: /usr/share/springpetclinic
+app_service_path: /etc/systemd/system/springpetclinic.service

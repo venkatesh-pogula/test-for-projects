@@ -1,0 +1,42 @@
+---
+- name:  To install the spring-pet-clinc
+  hosts: appserver
+  become: yes
+  tasks:
+    - name: To install the open-jdk-11
+      apt:
+        name: "{{ java_package }}"
+        update_cache: yes
+        state: present
+    - name: To create the spring-pet-clinc dirctory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+    - name: To get the spring-pet-clinc.jar from the git
+      get_url:
+        url: "{{ app_dir_url }}"
+        dest: "{{ app_path }}"
+    - name: To create the user springbootuser
+      user:
+        name: "{{ app_user }}"
+        password: "{{ app_user }}"
+        state: present 
+ ## sudo chown springbootuser:springbootuser /usr/share/springpetclinic/spring-petclinic-2.4.2.jar
+    - name: To change ownership of file 
+      file:
+        path: "{{ app_path }}"
+        owner: "{{ app_user }}"
+        mode: '500'
+        state: file  
+    - name: To copy the .service file into /etc/systemd/system/springpetclinic.service
+      copy:
+        src: springpetclinic.service 
+        dest: "{{ app_service_path }}" 
+
+    - name: Enable and start spring petclinic
+      systemd:
+        name: springpetclinic.service
+        enabled: yes
+        state: started    
+
+         
